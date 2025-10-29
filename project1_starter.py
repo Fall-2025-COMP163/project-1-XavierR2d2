@@ -1,16 +1,61 @@
 """
 COMP 163 - Project 1: Character Creator & Saving/Loading
-Name: [Your Name Here]
-Date: [Date]
+Name: Xavier Rothwell
+Date: 10/29/2025
 
 AI Usage: [Document any AI assistance used]
 Example: AI helped with file I/O error handling logic in save_character function
 """
-
+level = 1
+name = name.lowercase(input("Whats your Character's name: "))
+character = character_class(input("What Class will they become? [Warrior | Mage | Hunter | Assassin]"))
+    # Strength will max out at 1000
+    # Magic will max out at 100
+    # Health will max out at 100
+    # Gold will max out at 9,999,999
+strength = 0
+magic = 0
+health = 0
+gold = 0
 def create_character(name, character_class):
+    if character == "mage":
+        strength =+ 5
+        magic =+ 15
+        health =+ 80
+        gold =+ 100
+    elif character_class == "warrior":
+        strength =+ 15
+        magic =+ 5
+        health =+ 120
+        gold =+ 50
+    elif character_class == "hunter":
+        strength =+ 10
+        magic =+ 8
+        health =+ 100
+        gold =+ 75
+    elif character_class == "Assassin":
+        strength =+ 8
+        magic =+ 8
+        health =+ 90
+        gold =+ 60
+
+    return {
+        "name": name,
+        "character_class": character_class,
+        "level": level,
+        "strength": strength,
+        "magic": magic,
+        "health": health,
+        "gold": gold
+    }
+    
     """
+    
     Creates a new character dictionary with calculated stats
     Returns: dictionary with keys: name, class, level, strength, magic, health, gold
+
+
+    
     
     Example:
     char = create_character("Aria", "Mage")
@@ -94,6 +139,8 @@ def level_up(character):
 if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
     print("Test your functions here!")
+
+    
     
     # Example usage:
     # char = create_character("TestHero", "Warrior")
