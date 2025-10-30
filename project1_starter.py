@@ -16,8 +16,6 @@ health = 0
 gold = 0
 
 # Character Creation
-
-
 def create_character(name, character_class):
     if character == "mage":
         strength = 5
@@ -52,19 +50,6 @@ def create_character(name, character_class):
         "gold": gold
     }
     
-   
-    """
-    
-    Creates a new character dictionary with calculated stats
-    Returns: dictionary with keys: name, class, level, strength, magic, health, gold
-
-
-    
-    
-    Example:
-    char = create_character("Aria", "Mage")
-    # Should return: {"name": "Aria", "class": "Mage", "level": 1, "strength": 5, "magic": 15, "health": 80, "gold": 100}
-    """
     # TODO: Implement this function
     # Remember to use calculate_stats() function for stat calculation
     pass
@@ -91,16 +76,7 @@ def calculate_stats(character_class, level):
         health = 90 + (level * 10)
     else:
         return(0, 0, 0)
-    """
-    Calculates base stats based on class and level
-    Returns: tuple of (strength, magic, health)
-    
-    Design your own formulas! Ideas:
-    - Warriors: High strength, low magic, high health
-    - Mages: Low strength, high magic, medium health  
-    - Rogues: Medium strength, medium magic, low health
-    - Clerics: Medium strength, high magic, high health
-    """
+  
     # TODO: Implement this function
     # Return a tuple: (strength, magic, health)
     pass
@@ -116,19 +92,7 @@ def save_character(character, filename):
         file.write(f"Gold: {character['gold']}\n")
     return True
     
-    """
-    Saves character to text file in specific format
-    Returns: True if successful, False if error occurred
-    
-    Required file format:
-    Character Name: [name]
-    Class: [class]
-    Level: [level]
-    Strength: [strength]
-    Magic: [magic]
-    Health: [health]
-    Gold: [gold]
-    """
+   
     # TODO: Implement this function
     # Remember to handle file errors gracefully
     pass
@@ -144,29 +108,12 @@ def load_character(filename):
             character[key] = value
     return character
     
-    """
-    Loads character from text file
-    Returns: character dictionary if successful, None if file not found
-    """
     # TODO: Implement this function
     # Remember to handle file not found errors
     pass
 
 def display_character(character):
-    """
-    Prints formatted character sheet
-    Returns: None (prints to console)
-    
-    Example output:
-    === CHARACTER SHEET ===
-    Name: Aria
-    Class: Mage
-    Level: 1
-    Strength: 5
-    Magic: 15
-    Health: 80
-    Gold: 100
-    """
+   
     print("\n=== CHARACTER SHEET ===")
     print(f"Name: {character['Name']}")
     print(f"Class: {character['Class']}")
@@ -185,15 +132,7 @@ def level_up(character):
     character["Magic"] = magic
     character["Health"] = health
     print(f'\n{character['Name']} leveled up to level {character['Level']}!')
-    
-    
-    """
-    Increases character level and recalculates stats
-    Modifies the character dictionary directly
-    Returns: None
-    """
-    # TODO: Implement this function
-    # Remember to recalculate stats for the new level
+   
     pass
 
 # Main program area (optional - for testing your functions)
