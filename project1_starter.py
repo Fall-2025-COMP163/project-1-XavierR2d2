@@ -9,35 +9,38 @@ Example: AI helped with file I/O error handling logic in save_character function
 level = 1
 name = name.lowercase(input("Whats your Character's name: "))
 character = character_class(input("What Class will they become? [Warrior | Mage | Hunter | Assassin]"))
-    # Strength will max out at 1000
-    # Magic will max out at 100
-    # Health will max out at 100
-    # Gold will max out at 9,999,999
+
 strength = 0
 magic = 0
 health = 0
 gold = 0
+
+# Character Creation
+
+
 def create_character(name, character_class):
     if character == "mage":
-        strength =+ 5
-        magic =+ 15
-        health =+ 80
-        gold =+ 100
+        strength = 5
+        magic = 15
+        health = 80
+        gold = 100
     elif character_class == "warrior":
-        strength =+ 15
-        magic =+ 5
-        health =+ 120
-        gold =+ 50
+        strength = 15
+        magic = 5
+        health = 120
+        gold = 50
     elif character_class == "hunter":
-        strength =+ 10
-        magic =+ 8
-        health =+ 100
-        gold =+ 75
+        strength = 10
+        magic = 8
+        health = 100
+        gold = 75
     elif character_class == "Assassin":
-        strength =+ 8
-        magic =+ 8
-        health =+ 90
-        gold =+ 60
+        strength = 8
+        magic = 8
+        health = 90
+        gold = 60
+    else:
+        return "Please pick a character that is listed"
 
     return {
         "name": name,
@@ -49,6 +52,7 @@ def create_character(name, character_class):
         "gold": gold
     }
     
+   
     """
     
     Creates a new character dictionary with calculated stats
@@ -66,6 +70,27 @@ def create_character(name, character_class):
     pass
 
 def calculate_stats(character_class, level):
+    if character == "mage":
+        strength = 5 + (level * 2)
+        magic = 15 + (level * 20)
+        health = 80 + (level * 15)
+        
+    elif character_class == "warrior":
+        strength = 15 + (level * 5)
+        magic = 5 +(level * 1)
+        health = 120 +(level * 20)
+         
+    elif character_class == "hunter":
+        strength = 10 + (level * 5)
+        magic = 8 + (level * 1)
+        health = 100 + (level * 18)
+        
+    elif character_class == "Assassin":
+        strength = 8 + (level * 5)
+        magic = 8 + (level * 2)
+        health = 90 + (level * 10)
+    else:
+        return(0, 0, 0)
     """
     Calculates base stats based on class and level
     Returns: tuple of (strength, magic, health)
@@ -81,6 +106,16 @@ def calculate_stats(character_class, level):
     pass
 
 def save_character(character, filename):
+    with open(filename, "w") as file:
+        file.write(f"Character Name: {character['name']}\n")
+        file.write(f"Class: {character['class']}\n")
+        file.write(f"Level: {character['Level']}\n")
+        file.write(f"Strength: {character['strength']}\n")
+        file.write(f"Magic: {character['magic']}\n")
+        file.write(f"Health: {character['health']}\n")
+        file.write(f"Gold: {character['gold']}\n")
+    return True
+    
     """
     Saves character to text file in specific format
     Returns: True if successful, False if error occurred
