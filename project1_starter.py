@@ -9,20 +9,14 @@ Example: AI helped with file I/O error handling logic in save_character function
 
 
 # Character Creation
-def create_character(name=None, character_class=None):
-    if name is None:
-        name = input("Enter your name ")
+def create_character(name, character_class):
+    strength, magic, health = calculate_stats(character_class, level)
     valid_classes = ["Warrior","Mage","Hunter","Assassin"]
-
-    while character_class not in valid_classes:
-        if character_class is None:
-            character_class = input("What Class will they become? [Warrior | Mage | Hunter | Assassin]: ")
-        elif character_class not in valid_classes:
-            print("Invaild Class. Please choose from: Warrior, Mage, Hunter, Assassin.")
-            character_class = None
+    print("Invalid class. Please choose from the options provided")
+    character_class = input("Choose a class: ")
 
     
-    if character == "mage":
+    if character_class == "mage":
         stats = {
             strength = 5
             magic = 15
@@ -69,6 +63,7 @@ def create_character(name=None, character_class=None):
     pass
 
 def calculate_stats(character_class, level):
+    character_class = character_class.lower()
     if character == "mage":
         print(strength = 5 + (level * 2), magic = 15 + (level * 20), health = 80 + (level * 15))
         
@@ -78,7 +73,7 @@ def calculate_stats(character_class, level):
     elif character_class == "hunter":
         print(strength = 10 + (level * 5), magic = 8 + (level * 1), health = 100 + (level * 18))
         
-    elif character_class == "Assassin":
+    elif character_class == "assassin":
         print(strength = 8 + (level * 5), magic = 8 + (level * 2), health = 90 + (level * 10))
     else:
         return 0, 0, 0
@@ -88,6 +83,7 @@ def calculate_stats(character_class, level):
     pass
 
 def save_character(character, filename):
+    
     try:
         with open(filename, "w", encoding="utf-8") as file:
             file.write(f"Character Name: {character['name']}\n")
@@ -99,27 +95,47 @@ def save_character(character, filename):
             file.write(f"Gold: {character['gold']}\n")
         return True
     except Exception:
+    import os
+    if not isinstance(character, dict) or not filename:
         return False
-   
+   directory = os.path.dirname(filename)
+   if directory and not os.path.exists(directory):
+        return False
+
+    with open(filename, "w") as file:
+        file.write(f"Character Name: {character['name']}\n")
+        file.write(f"Class: {character['class']}\n")
+        file.write(f"Level: {character['level']}\n")
+        file.write(f"Strength: {character['strength']}\n")
+        file.write(f"Magic: {character['magic']}\n")
+        file.write(f"Health: {character['health']}\n")
+        file.write(f"Gold: {character['gold']}\n")
+    return True
     # TODO: Implement this function
     # Remember to handle file errors gracefully
     pass
-
+import os
 def load_character(filename):
-    try:
-        with open(filename, "r", encoing="utf-8") as file:
-            lines = open(filename, "r").readlines()
-            character = {}
-        for line in lines:
-            key, value = line.strip().split(": ")
-            if value.isdigit():
-                value = int(value)
-                character[key] = int(value)
-            return character
-    except FileNotFoundError:
+    if not os.path.exists(filename):
         return None
-    except Exception:
-        return None
+
+    file = open(filename, "r")
+    lines = file.readlines()
+    file.close()
+
+    character = {}
+    for line in lines:
+         if ": " not in line:
+            continue
+        key, value = line.strip().split(": ", 1)
+        key = key.lower().replace("character ", "")
+        if value.isdigit():
+            value = int(value)
+        character[key] = value
+        if len(character) == 0:
+            return None
+
+        return character
     
     # TODO: Implement this function
     # Remember to handle file not found errors
@@ -128,24 +144,24 @@ def load_character(filename):
 def display_character(character):
    
     print("\n=== CHARACTER SHEET ===")
-    print(f"Name: {character['Name']}")
-    print(f"Class: {character['Class']}")
-    print(f"Level: {character['Level']}")
-    print(f"Strength: {character['Strength']}")
-    print(f"Magic: {character['Magic']}")
-    print(f"Health: {character['Health']}")
-    print(f"Gold: {character['Gold']}")
+    print(f"Name: {character.get('name', '')}")
+    print(f"Class: {character.get('class', '')}")
+    print(f"Level: {character.get('level', 0)}")
+    print(f"Strength: {character.get('strength', 0)}")
+    print(f"Magic: {character.get('magic', 0)}") 
+    print(f"Health: {character.get('health', 0)}")
+    print(f"Gold: {character.get('gold', 0)}")
     print("=======================")
     # TODO: Implement this function
     pass
 
 def level_up(character):
     character["level"] += 1
-    strength, magic, health = calculate_stats(character["Class"], character["Level"])
-    character["Strength"] = strength
-    character["Magic"] = magic
-    character["Health"] = health
-    print(f'\n{character['Name']} leveled up to level {character['Level']}!')
+    strength, magic, health = calculate_stats(character["class"], character["level"])
+    character["strength"] = strength
+    character["magic"] = magic
+    character["health"] = health
+    print(f'\n{character['name']} leveled up to level {character['level']}!')
    
     pass
 
