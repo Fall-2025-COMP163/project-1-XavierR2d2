@@ -7,8 +7,8 @@ AI Usage: [Document any AI assistance used]
 Example: AI helped with file I/O error handling logic in save_character function
 """
 level = 1
-name = name.lowercase(input("Whats your Character's name: "))
-character = character_class(input("What Class will they become? [Warrior | Mage | Hunter | Assassin]"))
+name = name.capitalize(input("Whats your Character's name: "))
+character = character_class.lowercase(input("What Class will they become? [Warrior | Mage | Hunter | Assassin]"))
 
 strength = 0
 magic = 0
@@ -134,6 +134,15 @@ def save_character(character, filename):
     pass
 
 def load_character(filename):
+    lines = open(filename, "r").readlines()
+    character = {}
+    for line in lines:
+        key, value = line.strip().split(": ")
+        if value.isdigit():
+            character[key] = int(value)
+        else:
+            character[key] = value
+    return character
     
     """
     Loads character from text file
