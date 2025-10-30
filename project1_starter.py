@@ -134,6 +134,7 @@ def save_character(character, filename):
     pass
 
 def load_character(filename):
+    
     """
     Loads character from text file
     Returns: character dictionary if successful, None if file not found
@@ -157,10 +158,26 @@ def display_character(character):
     Health: 80
     Gold: 100
     """
+    print("\n=== CHARACTER SHEET ===")
+    print(f"Name: {character['Name']}")
+    print(f"Class: {character['Class']}")
+    print(f"Level: {character['Level']}")
+    print(f"Strength: {character['Strength']}")
+    print(f"Magic: {character['Magic']}")
+    print(f"Health: {character['Health']}")
+    print(f"Gold: {character['Gold']}")
+    print("=======================")
     # TODO: Implement this function
     pass
 
 def level_up(character):
+    strength, magic, health = calculate_stats(character["Class"], character["Level"])
+    character["Strength"] = strength
+    character["Magic"] = magic
+    character["Health"] = health
+    print(f'\n{character['Name']} leveled up to level {character['Level']}!')
+    
+    
     """
     Increases character level and recalculates stats
     Modifies the character dictionary directly
@@ -173,9 +190,10 @@ def level_up(character):
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
-    print("Test your functions here!")
-
-    
+    char = create_character("TestHero", "Warrior")
+    display_character(char)
+    save_character(char, "my_character.txt")
+    loaded = load_character("my_character.txt")
     
     # Example usage:
     # char = create_character("TestHero", "Warrior")
