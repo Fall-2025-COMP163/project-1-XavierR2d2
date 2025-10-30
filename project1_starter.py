@@ -10,51 +10,21 @@ Example: AI helped with file I/O error handling logic in save_character function
 
 # Character Creation
 def create_character(name, character_class):
+    level = 1
     strength, magic, health = calculate_stats(character_class, level)
-    valid_classes = ["Warrior","Mage","Hunter","Assassin"]
-    print("Invalid class. Please choose from the options provided")
-    character_class = input("Choose a class: ")
 
-    
-    if character_class == "mage":
-        stats = {
-            strength = 5
-            magic = 15
-            health = 80
-            gold = 100
-        }
-    elif character_class == "warrior":
-        stats = {
-            strength = 15
-            magic = 5
-            health = 120
-            gold = 50
-        }
-    elif character_class == "hunter":
-        stats= {
-            strength = 10
-            magic = 8
-            health = 100
-            gold = 75
-        }
-    else: #stats for Assassin
-        stats = {
-            strength = 8
-            magic = 8
-            health = 90
-            gold = 60
-        }
-    
-        
+    valid_classes = ["Warrior", "Mage", "Hunter", "Assassin"]
+    if character_class not in valid_classes:
+        return None
 
     character = {
-        "name": name,
-        "character_class": character_class,
+        "name":name,
+        "class": character_class,
         "level": level,
         "strength": strength,
         "magic": magic,
         "health": health,
-        "gold": gold
+        "gold": 0
     }
 
     return character 
@@ -64,58 +34,40 @@ def create_character(name, character_class):
 
 def calculate_stats(character_class, level):
     character_class = character_class.lower()
-    if character == "mage":
-        print(strength = 5 + (level * 2), magic = 15 + (level * 20), health = 80 + (level * 15))
-        
+    strength = 0
+    magic = 0
+    health = 0
+
+    if character_class == "mage":
+        strength = 5 + (level * 2)
+        magic = 15 + (level * 20)
+        health = 80 + (level * 15)
+
     elif character_class == "warrior":
-        print(strength = 15 + (level * 5), magic = 5 +(level * 1), health = 120 +(level * 20))
-         
+        strength = 15 + (level * 5)
+        magic = 5 + (level * 1)
+        health = 120 + (level * 20)
+
     elif character_class == "hunter":
-        print(strength = 10 + (level * 5), magic = 8 + (level * 1), health = 100 + (level * 18))
-        
+        strength = 10 + (level * 5)
+        magic = 8 + (level * 1)
+        health = 100 + (level * 18)
+
     elif character_class == "assassin":
-        print(strength = 8 + (level * 5), magic = 8 + (level * 2), health = 90 + (level * 10))
+        strength = 8 + (level * 5)
+        magic = 8 + (level * 2)
+        health = 90 + (level * 10)
     else:
-        return 0, 0, 0
+        print("invalid")
+        return calculate_stats(character_class, level)
+    return strength, magic, health
   
     # TODO: Implement this function
     # Return a tuple: (strength, magic, health)
     pass
 
-def save_character(character, filename):
-    
-    try:
-        with open(filename, "w", encoding="utf-8") as file:
-            file.write(f"Character Name: {character['name']}\n")
-            file.write(f"Class: {character['class']}\n")
-            file.write(f"Level: {character['Level']}\n")
-            file.write(f"Strength: {character['strength']}\n")
-            file.write(f"Magic: {character['magic']}\n")
-            file.write(f"Health: {character['health']}\n")
-            file.write(f"Gold: {character['gold']}\n")
-        return True
-    except Exception:
+def load_character(filename): # AI was used to work through lines 69-92
     import os
-    if not isinstance(character, dict) or not filename:
-        return False
-   directory = os.path.dirname(filename)
-   if directory and not os.path.exists(directory):
-        return False
-
-    with open(filename, "w") as file:
-        file.write(f"Character Name: {character['name']}\n")
-        file.write(f"Class: {character['class']}\n")
-        file.write(f"Level: {character['level']}\n")
-        file.write(f"Strength: {character['strength']}\n")
-        file.write(f"Magic: {character['magic']}\n")
-        file.write(f"Health: {character['health']}\n")
-        file.write(f"Gold: {character['gold']}\n")
-    return True
-    # TODO: Implement this function
-    # Remember to handle file errors gracefully
-    pass
-import os
-def load_character(filename):
     if not os.path.exists(filename):
         return None
 
@@ -125,17 +77,19 @@ def load_character(filename):
 
     character = {}
     for line in lines:
-         if ": " not in line:
+        if ":" not in line:
             continue
-        key, value = line.strip().split(": ", 1)
+        key, value = line.strip().split(":", 1)
         key = key.lower().replace("character ", "")
+
         if value.isdigit():
             value = int(value)
         character[key] = value
-        if len(character) == 0:
-            return None
 
-        return character
+    if len(character) == 0:
+        return None
+
+    return character
     
     # TODO: Implement this function
     # Remember to handle file not found errors
@@ -168,8 +122,8 @@ def level_up(character):
 # Main program area (optional - for testing your functions)
 if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
-    n = input.capitalize("Enter your name: ")
-    c = input("What class will you choose? [Warrior | Mage | Hunter | Assassin]")
+    n = input("Enter your name: ")
+    c = input("What class will you choose? (Warrior/Mage/Rogue/Cleric): ")
 
     char = create_character(n, c)
     if char is not None:
@@ -181,7 +135,7 @@ if __name__ == "__main__":
         print("\nLoaded character from file:")
         display_character(loaded)
     else:
-        print("Invalid class. Please choose from the options given.")
+        print("invalid class. Please pick an option given.")
     
     # Example usage:
     # char = create_character("TestHero", "Warrior")
