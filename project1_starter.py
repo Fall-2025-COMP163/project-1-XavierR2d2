@@ -10,7 +10,11 @@ Example: AI helped with file I/O error handling logic in save_character function
 
 # Character Creation
 def create_character(name, character_class):
+    if name is None or str(name).strip() == "":
+        return None
+
     valid_classes = ["warrior", "mage", "hunter", "assassin"]
+
     if character_class is None:
         return None
 
@@ -28,26 +32,10 @@ def create_character(name, character_class):
         "strength": strength,
         "magic": magic,
         "health": health,
-        "gold": 0
+        "gold": 100
     }
 
     return character
-
-
-    level = 1
-    strength, magic, health = calculate_stats(cls_norm, level)
-
-    character = {
-        "name": name,
-        "class": character_class,
-        "level": level,
-        "strength": strength,
-        "magic": magic,
-        "health": health,
-        "gold": 0
-    }
-
-    return character 
     # TODO: Implement this function
     # Remember to use calculate_stats() function for stat calculation
     pass
@@ -56,36 +44,37 @@ def calculate_stats(character_class, level):
     if character_class is None:
         return 0, 0, 0
 
-    character_class = character_class.lower()
-    strength = magic = health = 0
+    cls_format = character_class.lower()
+    level_up = max(0, int(level)- 1)
 
-    if character_class == "mage":
-        strength = 5 + (level * 2)
-        magic = 15 + (level * 20)
-        health = 80 + (level * 15)
-    elif character_class == "warrior":
-        strength = 15 + (level * 5)
-        magic = 5 + (level * 1)
-        health = 120 + (level * 20)
-    elif character_class == "hunter":
-        strength = 10 + (level * 5)
-        magic = 8 + (level * 1)
-        health = 100 + (level * 18)
-    elif character_class == "assassin":
-        strength = 8 + (level * 5)
-        magic = 8 + (level * 2)
-        health = 90 + (level * 10)
+    if cls_format == "mage":
+        strength = 5 + (level_up * 2)
+        magic = 15 + (level_up * 20)
+        health = 80 + (level_up * 15)
+    elif cls_format == "warrior":
+        strength = 15 + (level_up * 5)
+        magic = 5 + (level_up * 1)
+        health = 120 + (level_up * 20)
+    elif cls_format == "hunter":
+        strength = 10 + (level_up * 5)
+        magic = 8 + (level_up * 1)
+        health = 100 + (level_up * 18)
+    elif cls_format == "assassin":
+        strength = 8 + (level_up * 5)
+        magic = 8 + (level_up * 2)
+        health = 90 + (level_up * 10)
     else:
         return 0, 0, 0
 
     return strength, magic, health
-  
-    # TODO: Implement this function
-    # Return a tuple: (strength, magic, health)
-    pass
-    
-def save_character(character, filename):
-    f = open(filename, "w")
+
+def save_character(character, filename): #Ai was used to help with the making of this part of the code
+    import os
+    folder = os.path.dirname(filename)
+    if folder != "" and not os.path.exists(folder):
+        return false
+
+    f = open(filename, "w", encoding="utf-8")
     f.write(f"Name: {character.get('name', '')}\n")
     f.write(f"Class: {character.get('class', '')}\n")
     f.write(f"Level: {character.get('level', 0)}\n")
@@ -94,15 +83,18 @@ def save_character(character, filename):
     f.write(f"Health: {character.get('health', 0)}\n")
     f.write(f"Gold: {character.get('gold', 0)}\n")
     f.close()
-
-def load_character(filename): # ai was used to help with this part of the code lines 98 - 119
+    return True
+    
+def load_character(filename):
     import os
     if not os.path.exists(filename):
         return None
 
-    f = open(filename, "r")
+    f = open(filename, "r", encoding="utf-8")
     lines = f.readlines()
     f.close()
+    if not lines:
+        return None
 
     character = {}
     for line in lines:
@@ -110,20 +102,21 @@ def load_character(filename): # ai was used to help with this part of the code l
             continue
         key, value = line.strip().split(":", 1)
         key = key.strip().lower().replace("character ", "")
-        value = value.strip()
+        value = value.strip("-")
         if value.isdigit():
             value = int(value)
         character[key] = value
-
-    if len(character) == 0:
-        return None
+    for k in ("level", "strength", "magic", "health", "gold"):
+        if k not in character:
+            character[k] = 0
+        elif isinstance(character[k], str) and character[k].strip("-").isdigit():
+            character[k] = int(character[k])
 
     return character
-    
     # TODO: Implement this function
-    # Remember to handle file not found errors
+    # Return a tuple: (strength, magic, health)
     pass
-
+    
 def display_character(character):
     print("\n=== CHARACTER SHEET ===")
     print(f"Name: {character.get('name', '')}")
@@ -137,13 +130,21 @@ def display_character(character):
     # TODO: Implement this function
     pass
 
-def level_up(character):
-    character["level"] += 1
-    strength, magic, health = calculate_stats(character["class"], character["level"])
-    character["strength"] = strength
-    character["magic"] = magic
-    character["health"] = health
-    print(f"\n{character['name']} leveled up to level {character['level']}!")
+def level_up(character, times=1):
+    if character is None or not isinstance(character, dict):
+        return None
+
+    character["level"] = int(character.get("level", 0))
+    times = max(0, int(times))
+
+    character["level"] += times
+    strength, magic, health = calculate_stats(character.get("class", ""), character["level"])
+    character ["strength"] = strength
+    character ["magic"] = magic
+    character ["health"] = health
+
+    print(f"\n{character.get('name', '')} leveled up to level {character['level']}!")
+    return character
    
     pass
 
