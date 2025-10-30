@@ -13,7 +13,7 @@ def create_character(name, character_class):
     if name is None or str(name).strip() == "":
         return None
 
-    valid_classes = ["warrior", "mage", "hunter", "assassin"]
+    valid_classes = ["warrior", "mage", "rogue", "cleric"]
     if character_class is None:
         return None
 
@@ -54,11 +54,11 @@ def calculate_stats(character_class, level):
         strength = 15 + (level_up * 5)
         magic = 5 + (level_up * 1)
         health = 120 + (level_up * 20)
-    elif cls_format == "hunter":
+    elif cls_format == "rogue":
         strength = 10 + (level_up * 5)
         magic = 8 + (level_up * 1)
         health = 100 + (level_up * 18)
-    elif cls_format == "assassin":
+    elif cls_format == "cleric":
         strength = 8 + (level_up * 5)
         magic = 8 + (level_up * 2)
         health = 90 + (level_up * 10)
@@ -154,7 +154,7 @@ def level_up(character, times=1):
 if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
     n = input("Enter your name: ")
-    c = input("What class will you choose? (Warrior/Mage/Hunter/Assassin): ")
+    c = input("What class will you choose? (Warrior/Mage/Rogue/Cleric): ")
 
     char = create_character(n, c)
     if char is not None:
