@@ -14,7 +14,6 @@ def create_character(name, character_class):
         return None
 
     valid_classes = ["warrior", "mage", "hunter", "assassin"]
-
     if character_class is None:
         return None
 
@@ -26,8 +25,8 @@ def create_character(name, character_class):
     strength, magic, health = calculate_stats(cls_norm, level)
 
     character = {
-        "name": name,
-        "class": character_class,
+        "name": name.strip(),
+        "class": cls_norm.title(),
         "level": level,
         "strength": strength,
         "magic": magic,
@@ -68,14 +67,17 @@ def calculate_stats(character_class, level):
 
     return strength, magic, health
 
-def save_character(character, filename): #Ai was used to help with the making of this part of the code
+def save_character(character, filename):
     import os
+    if character is None:
+        return False
+
     folder = os.path.dirname(filename)
     if folder != "" and not os.path.exists(folder):
-        return false
+        return False
 
     f = open(filename, "w", encoding="utf-8")
-    f.write(f"Name: {character.get('name', '')}\n")
+    f.write(f"Name: {character.get('name', '').strip()}\n")
     f.write(f"Class: {character.get('class', '')}\n")
     f.write(f"Level: {character.get('level', 0)}\n")
     f.write(f"Strength: {character.get('strength', 0)}\n")
