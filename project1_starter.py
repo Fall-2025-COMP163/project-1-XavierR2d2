@@ -35,8 +35,6 @@ def create_character(name, character_class):
     }
 
     return character
-    # TODO: Implement this function
-    # Remember to use calculate_stats() function for stat calculation
     pass
 
 def calculate_stats(character_class, level):
@@ -44,7 +42,7 @@ def calculate_stats(character_class, level):
         return 0, 0, 0
 
     cls_format = character_class.lower()
-    level_up = max(0, int(level)- 1)
+    level_up = max(0, int(level) - 1)
 
     if cls_format == "mage":
         strength = 5 + (level_up * 2)
@@ -77,7 +75,7 @@ def save_character(character, filename):
         return False
 
     f = open(filename, "w", encoding="utf-8")
-    f.write(f"Name: {character.get('name', '').strip()}\n")
+    f.write(f"Character Name: {character.get('name', '').strip()}\n")
     f.write(f"Class: {character.get('class', '')}\n")
     f.write(f"Level: {character.get('level', 0)}\n")
     f.write(f"Strength: {character.get('strength', 0)}\n")
@@ -104,19 +102,17 @@ def load_character(filename):
             continue
         key, value = line.strip().split(":", 1)
         key = key.strip().lower().replace("character ", "")
-        value = value.strip("-")
+        value = value.strip()
         if value.isdigit():
             value = int(value)
         character[key] = value
     for k in ("level", "strength", "magic", "health", "gold"):
         if k not in character:
             character[k] = 0
-        elif isinstance(character[k], str) and character[k].strip("-").isdigit():
+        elif isinstance(character[k], str) and character[k].isdigit():
             character[k] = int(character[k])
 
     return character
-    # TODO: Implement this function
-    # Return a tuple: (strength, magic, health)
     pass
     
 def display_character(character):
@@ -129,7 +125,6 @@ def display_character(character):
     print(f"Health: {character.get('health', 0)}")
     print(f"Gold: {character.get('gold', 0)}")
     print("=======================")
-    # TODO: Implement this function
     pass
 
 def level_up(character, times=1):
@@ -141,13 +136,12 @@ def level_up(character, times=1):
 
     character["level"] += times
     strength, magic, health = calculate_stats(character.get("class", ""), character["level"])
-    character ["strength"] = strength
-    character ["magic"] = magic
-    character ["health"] = health
+    character["strength"] = strength
+    character["magic"] = magic
+    character["health"] = health
 
     print(f"\n{character.get('name', '')} leveled up to level {character['level']}!")
     return character
-   
     pass
 
 # Main program area (optional - for testing your functions)
