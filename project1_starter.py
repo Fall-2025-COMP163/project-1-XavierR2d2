@@ -70,7 +70,7 @@ def save_character(character, filename):
     if character is None:
         return False
 
-    folder = os.path.dirname(filename)
+    folder = os.path.dirname(filename) #Ai was used from lines 73 - 86 (The coder had the ai explain to him how the code works and why certain ways were better than others)
     if folder != "" and not os.path.exists(folder):
         return False
 
@@ -86,7 +86,7 @@ def save_character(character, filename):
     return True
     
 def load_character(filename):
-    import os
+    import os  #Ai told the coder what to write to get the os path.working
     if not os.path.exists(filename):
         return None
 
@@ -98,7 +98,7 @@ def load_character(filename):
 
     character = {}
     for line in lines:
-        if ":" not in line:
+        if ":" not in line: #Ai was used for the formating of the code and explained what each of the formating codes did
             continue
         key, value = line.strip().split(":", 1)
         key = key.strip().lower().replace("character ", "")
@@ -144,7 +144,7 @@ def level_up(character, times=1):
     return character
     pass
 
-# Main program area (optional - for testing your functions)
+
 if __name__ == "__main__":
     print("=== CHARACTER CREATOR ===")
     n = input("Enter your name: ")
@@ -162,8 +162,4 @@ if __name__ == "__main__":
     else:
         print("invalid class. Please pick an option given.")
     
-    # Example usage:
-    # char = create_character("TestHero", "Warrior")
-    # display_character(char)
-    # save_character(char, "my_character.txt")
-    # loaded = load_character("my_character.txt")
+)
